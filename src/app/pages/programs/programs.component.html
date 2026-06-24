@@ -1,0 +1,13 @@
+<div>
+  <form (submit)="handleCreateProgram($event)">
+    <input type="text" [formControl]="programName">
+    <button type="submit">Создать программу</button>
+  </form>
+  <ul>
+    @for (group of rootGroups(); track $index) {
+    <li>
+      <app-group [group]="group" />
+    </li>
+    }
+  </ul>
+</div>

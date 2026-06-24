@@ -11,13 +11,16 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "skipTests": true
+          "skipTests": true,
+          "type": "component"
         },
         "@schematics/angular:service": {
-          "skipTests": true
+          "skipTests": true,
+          "type": "service"
         },
         "@schematics/angular:directive": {
-          "skipTests": true
+          "skipTests": true,
+          "type": "directive"
         }
       },
       "root": "",
@@ -36,13 +39,9 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ],
+            "styles": ["src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/app/styles"
-              ]
+              "includePaths": ["src/app/styles"]
             }
           },
           "configurations": {
@@ -64,7 +63,13 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

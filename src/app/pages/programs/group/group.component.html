@@ -1,0 +1,15 @@
+<div>
+  <p>{{group.name}} {{group.id}}</p>
+  <ul>
+    @for (child of childrenGroups(); track $index) {
+    <li>
+      <app-group [group]="child" />
+    </li>
+    }
+    <!-- @for (child of childrenTemplates(); track $index) {
+    <li>
+      <app-template [template]="child" />
+    </li>
+    } -->
+  </ul>
+</div>
