@@ -1,13 +1,19 @@
+@let groups = groupsSubject$ | async;
+
 <div>
   <form (submit)="handleCreateProgram($event)">
     <input type="text" [formControl]="programName">
     <button type="submit">Создать программу</button>
   </form>
   <ul>
-    @for (group of rootGroups(); track $index) {
-    <li>
-      <app-group [group]="group" />
-    </li>
+    @if(groups) {
+      @for (group of groups; track $index) {
+        @if(group.parentId === null) {
+          <app-group [group]="group" />
+        }
+      }
+    } @else {
+      <div>loading...</div>
     }
   </ul>
 </div>

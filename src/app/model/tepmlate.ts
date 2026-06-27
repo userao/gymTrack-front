@@ -4,8 +4,8 @@ export interface ITemplate {
   id: number,
   name: number,
   parentId: number,
-  templateExercises?: {
+  templateExercises?: [{
     exercise: IExercise,
     sets: ISet[]
-  }
+  }]
 }

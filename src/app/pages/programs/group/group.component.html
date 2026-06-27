@@ -1,15 +1,23 @@
+@let groupWithChildren = withChildren$ | async;
+
 <div>
   <p>{{group.name}} {{group.id}}</p>
-  <ul>
-    @for (child of childrenGroups(); track $index) {
-    <li>
-      <app-group [group]="child" />
-    </li>
-    }
-    <!-- @for (child of childrenTemplates(); track $index) {
-    <li>
-      <app-template [template]="child" />
-    </li>
-    } -->
-  </ul>
+  <button (click)="handleCreateGroup()">Создать группу</button>
+  <button (click)="handleCreateTemplate()">Создать шаблон</button>
+  @if(groupWithChildren) {
+    <ul>
+      @for (childGroup of groupWithChildren.childrenGroups; track $index) {
+      <li>
+        <app-group [group]="childGroup" />
+      </li>
+      }
+      @for (childTemplate of groupWithChildren.childrenTemplates; track $index) {
+      <li>
+        <app-template [template]="childTemplate" />
+      </li>
+      }
+    </ul>
+  } @else {
+    <div>loading group...</div>
+  }
 </div>

@@ -25,4 +25,8 @@ export class ProgramsApiService {
   getTemplate(templateId: number): Observable<ITemplate> {
     return this.httpClient.get<ITemplate>(`http://localhost:3000/templates/${templateId}`);
   }
+
+  createTemplate(templateDto: {name: string, parentId: number}) {
+    return this.httpClient.post<ITemplate>("http://localhost:3000/templates", templateDto);
+  }
 }

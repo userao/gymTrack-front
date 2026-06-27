@@ -3,26 +3,46 @@ import { ProgramsService } from '../../../services/programs.service';
 import { TemplateComponent } from '../template/template.component';
 import { IGroup } from '../../../model/group';
 import { ITemplate } from '../../../model/tepmlate';
+import { BehaviorSubject, combineLatest, map, Observable, switchMap, tap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-group',
-  imports: [TemplateComponent, GroupComponent],
+  imports: [TemplateComponent, GroupComponent, AsyncPipe],
   templateUrl: './group.component.html',
   styleUrl: './group.component.scss',
 })
 export class GroupComponent implements OnInit {
-  @Input() group: any;
+  @Input() group: IGroup;
+  withChildren$ = new BehaviorSubject<IGroup>({} as IGroup);
 
   private programsService = inject(ProgramsService);
 
-  childrenTemplates = signal<ITemplate[]>([]);
-  childrenGroups = signal<IGroup[]>([]);
-
   ngOnInit(): void {
-    this.programsService.getGroup(this.group.id).subscribe((data) => {
+    this.programsService.getGroup(this.group.id).pipe(
+      tap(group => {
+        this.withChildren$.next(group);
+      })
+    ).subscribe();
+  }
 
-      this.childrenTemplates.set(data.childrenTemplates ?? []);
-      this.childrenGroups.set(data.childrenGroups ?? []);
+  handleCreateGroup() {
+    this.programsService.createGroup({ name: "new group", userId: 1, parentId: this.group.id }).subscribe((newGroup) => {
+      const currentGroup = this.withChildren$.getValue();
+      this.withChildren$.next({
+        ...currentGroup,
+        childrenGroups: [...currentGroup.childrenGroups ?? [], newGroup]
+      })
+    });
+  }
+
+  handleCreateTemplate() {
+    this.programsService.createTemplate({ name: "new template", parentId: this.group.id }).subscribe((newTemplate) => {
+      const currentGroup = this.withChildren$.getValue();
+      this.withChildren$.next({
+        ...currentGroup,
+        childrenTemplates: [...currentGroup.childrenTemplates ?? [], newTemplate]
+      })
     });
   }
 }
