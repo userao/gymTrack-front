@@ -1,19 +1,22 @@
-export interface IExercise {
+export interface IDBExercise {
   id: number,
   name: string,
-  muscleGroup: IMuscleGroup,
+  muscleGroupId: number,
+  sets: IDBSet[]
 }
 
-export interface IMuscleGroup {
+export interface IDBMuscleGroup {
   id: number,
   name: string,
 }
 
-export interface ISet {
+export interface IDBSet {
   id: number,
   weight: number,
   reps: number,
   exerciseId: number,
   trainingId: number | null,
-  templateId: number | null,
+  templateId: number | null
 }
+
+export type SetCreateData = Pick<IDBSet, "weight" | "reps">

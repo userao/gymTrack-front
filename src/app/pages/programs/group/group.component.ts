@@ -1,9 +1,8 @@
-import { Component, inject, Input, OnInit, signal } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { ProgramsService } from '../../../services/programs.service';
 import { TemplateComponent } from '../template/template.component';
-import { IGroup } from '../../../model/group';
-import { ITemplate } from '../../../model/tepmlate';
-import { BehaviorSubject, combineLatest, map, Observable, switchMap, tap } from 'rxjs';
+import { IDBGroup } from '../../../model/group';
+import { BehaviorSubject } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -13,17 +12,15 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './group.component.scss',
 })
 export class GroupComponent implements OnInit {
-  @Input() group: IGroup;
-  withChildren$ = new BehaviorSubject<IGroup>({} as IGroup);
+  @Input() group: IDBGroup;
+  withChildren$ = new BehaviorSubject<IDBGroup>({} as IDBGroup);
 
   private programsService = inject(ProgramsService);
 
   ngOnInit(): void {
-    this.programsService.getGroup(this.group.id).pipe(
-      tap(group => {
-        this.withChildren$.next(group);
-      })
-    ).subscribe();
+    this.programsService.getGroup(this.group.id).subscribe(group => {
+      this.withChildren$.next(group);
+    });
   }
 
   handleCreateGroup() {

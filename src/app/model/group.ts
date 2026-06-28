@@ -1,9 +1,9 @@
-import { ITemplate } from "./tepmlate";
+import { IDBTemplate } from "./template";
 
-export interface IGroup {
+export interface IDBGroup {
   id: number,
   name: string,
   parentId: number | null,
-  childrenGroups?: IGroup[],
-  childrenTemplates?:  ITemplate[],
+  childrenGroups?: IDBGroup[],
+  childrenTemplates?:  IDBTemplate[],
 }

@@ -2,8 +2,8 @@
 
 <div>
   <p>{{group.name}} {{group.id}}</p>
-  <button (click)="handleCreateGroup()">Создать группу</button>
-  <button (click)="handleCreateTemplate()">Создать шаблон</button>
+  <button (click)="handleCreateGroup()">G</button>
+  <button (click)="handleCreateTemplate()">T</button>
   @if(groupWithChildren) {
     <ul>
       @for (childGroup of groupWithChildren.childrenGroups; track $index) {

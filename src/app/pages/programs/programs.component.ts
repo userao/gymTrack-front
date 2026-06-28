@@ -1,9 +1,9 @@
 import { ProgramsService } from './../../services/programs.service';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { GroupComponent } from './group/group.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { IGroup } from '../../model/group';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { IDBGroup } from '../../model/group';
+import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -15,7 +15,7 @@ import { AsyncPipe } from '@angular/common';
 export class Programs implements OnInit {
   private programsService = inject(ProgramsService);
 
-  groupsSubject$: Observable<IGroup[]>;
+  groupsSubject$: Observable<IDBGroup[]>;
   programName = new FormControl('');
 
   ngOnInit(): void {

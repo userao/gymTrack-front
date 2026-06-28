@@ -1,17 +1,45 @@
 @let withExercises = withExercises$ | async;
+@let modalData = modalData$ | async;
 
 <div>
-  <p>{{template.name}}</p>
+  <div class="flex gap-4">
+    <p class="underline">{{template.name}} {{template.id}}</p>
+    <button class="border-1 rounded-md h-[1lh] cursor-pointer" (click)="handleShowModal()" t>+</button>
+  </div>
   @if(withExercises) {
-    @for (exerciseSets of withExercises.templateExercises; track $index) {
-      <ul>
-        <li>
-          <p>{{exerciseSets.exercise.name}}</p>
-          @for (set of exerciseSets.sets; track $index) {
-            <p>{{set.weight}}kg x {{set.reps}}reps</p>
-          }
-        </li>
-      </ul>
-    }
+  @for (exercise of withExercises.exercises; track $index) {
+  <ul>
+    <li>
+      <div class="d-flex gap-4">
+        <p>{{exercise.name}}</p>
+        <button class="border-1 rounded-md h-[1lh] cursor-pointer" (click)="handleAddSet(exercise.id)">+</button>
+      </div>
+      @for (set of exercise.sets; track $index) {
+      <p>{{set.weight}}kg x {{set.reps}}reps</p>
+      }
+    </li>
+  </ul>
+  }
   }
 </div>
+
+@if(modalShown$ | async) {
+<div class="absolute top-0 left-0 w-screen h-screen flex justify-center items-center">
+  <div class="w-50 h-50 border-2">
+    <div>
+      @for (muscleGroup of modalData?.muscleGroups; track $index) {
+      {{muscleGroup.name}}
+      }
+    </div>
+    <div>
+      @for (exercise of modalData?.exercises; track $index) {
+      <p [attr.data-exercise-id]="exercise.id">
+        <button (click)="handleAddExercise(exercise.id)">
+          {{exercise.name}}
+        </button>
+      </p>
+      }
+    </div>
+  </div>
+</div>
+}

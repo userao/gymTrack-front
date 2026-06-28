@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ITemplate } from '../../model/tepmlate';
-import { IGroup } from '../../model/group';
+import { IDBTemplate } from '../../model/template';
+import { IDBGroup } from '../../model/group';
+import { IDBExercise, IDBMuscleGroup, IDBSet, SetCreateData } from '../../model/exercise';
 
 @Injectable({
   providedIn: 'root',
@@ -10,23 +11,43 @@ import { IGroup } from '../../model/group';
 export class ProgramsApiService {
   private httpClient = inject(HttpClient);
 
-  getUserGroups(userId: number): Observable<IGroup[]> {
-    return this.httpClient.get<IGroup[]>(`http://localhost:3000/groups?userId=${userId}`)
+  getUserGroups(userId: number): Observable<IDBGroup[]> {
+    return this.httpClient.get<IDBGroup[]>(`http://localhost:3000/groups?userId=${userId}`)
   }
 
-  getGroup(groupId: number): Observable<IGroup> {
-    return this.httpClient.get<IGroup>(`http://localhost:3000/groups/${groupId}`)
+  getGroup(groupId: number): Observable<IDBGroup> {
+    return this.httpClient.get<IDBGroup>(`http://localhost:3000/groups/${groupId}`)
   }
 
-  createGroup(groupDto: { userId: number, name: string, parentId: number | null }): Observable<IGroup> {
-    return this.httpClient.post<IGroup>("http://localhost:3000/groups", groupDto);
+  createGroup(groupDto: { userId: number, name: string, parentId: number | null }): Observable<IDBGroup> {
+    return this.httpClient.post<IDBGroup>("http://localhost:3000/groups", groupDto);
   }
 
-  getTemplate(templateId: number): Observable<ITemplate> {
-    return this.httpClient.get<ITemplate>(`http://localhost:3000/templates/${templateId}`);
+  getTemplate(templateId: number): Observable<IDBTemplate> {
+    return this.httpClient.get<IDBTemplate>(`http://localhost:3000/templates/${templateId}`);
   }
 
-  createTemplate(templateDto: {name: string, parentId: number}) {
-    return this.httpClient.post<ITemplate>("http://localhost:3000/templates", templateDto);
+  getTemplateExercises(templateId: number | string): Observable<Partial<IDBTemplate>> {
+    return this.httpClient.get<Partial<IDBTemplate>>(`http://localhost:3000/templates/${templateId}/exercises`);
+  }
+
+  createTemplate(templateDto: { name: string, parentId: number }) {
+    return this.httpClient.post<IDBTemplate>("http://localhost:3000/templates", templateDto);
+  }
+
+  getMuscleGroups(): Observable<IDBMuscleGroup[]> {
+    return this.httpClient.get<IDBMuscleGroup[]>("http://localhost:3000/muscle-groups");
+  }
+
+  getExercises(userId: number | string): Observable<IDBExercise[]> {
+    return this.httpClient.get<IDBExercise[]>(`http://localhost:3000/exercises?userId=${userId}`);
+  }
+
+  addExerciseToTemplate(templateId: number | string, exerciseId: number | string): Observable<IDBTemplate> {
+    return this.httpClient.get<IDBTemplate>(`http://localhost:3000/templates/${templateId}/exercises/${exerciseId}`);
+  }
+
+  addSetsToTemplateExercise(templateId: number | string, exerciseId: number | string, sets: SetCreateData[]) {
+    return this.httpClient.post<IDBTemplate>(`http://localhost:3000/templates/${templateId}/exercises/${exerciseId}/sets`, sets);
   }
 }
