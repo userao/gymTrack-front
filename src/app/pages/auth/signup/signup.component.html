@@ -1,0 +1,17 @@
+<div>
+  <form [formGroup]="signupForm" (ngSubmit)="handleSignup()">
+    <mat-form-field class="block">
+      <mat-label>Логин</mat-label>
+      <input matInput formControlName="login" type="text" />
+    </mat-form-field>
+    <mat-form-field class="block">
+      <mat-label>E-mail</mat-label>
+      <input matInput formControlName="email" type="email" />
+    </mat-form-field>
+    <mat-form-field class="block">
+      <mat-label>Пароль</mat-label>
+      <input matInput formControlName="password" type="password"/>
+    </mat-form-field>
+    <button matButton="filled">Зарегистрироваться</button>
+  </form>
+</div>

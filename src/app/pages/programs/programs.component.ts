@@ -12,7 +12,7 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './programs.component.html',
   styleUrl: './programs.component.scss',
 })
-export class Programs implements OnInit {
+export class ProgramsComponent implements OnInit {
   private programsService = inject(ProgramsService);
 
   groupsSubject$: Observable<IDBGroup[]>;
