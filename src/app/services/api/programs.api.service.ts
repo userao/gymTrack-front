@@ -23,7 +23,7 @@ export class ProgramsApiService {
     return this.httpClient.post<IDBGroup>("http://localhost:3000/groups", groupDto);
   }
 
-  getTemplate(templateId: number): Observable<IDBTemplate> {
+  getTemplate(templateId: number | string): Observable<IDBTemplate> {
     return this.httpClient.get<IDBTemplate>(`http://localhost:3000/templates/${templateId}`);
   }
 
@@ -49,5 +49,13 @@ export class ProgramsApiService {
 
   addSetsToTemplateExercise(templateId: number | string, exerciseId: number | string, sets: SetCreateData[]) {
     return this.httpClient.post<IDBTemplate>(`http://localhost:3000/templates/${templateId}/exercises/${exerciseId}/sets`, sets);
+  }
+
+  removeSet(setId: number | string) {
+    return this.httpClient.delete<IDBTemplate>(`http://localhost:3000/sets/${setId}`);
+  }
+
+  updateSet(setId: number | string, set: { weight: number, reps: number }) {
+    return this.httpClient.patch<IDBTemplate>(`http://localhost:3000/sets/${setId}`, set);
   }
 }

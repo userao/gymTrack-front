@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
 @use 'variables';
+@use 'material';
 @use 'sassVariables';
 @use 'theme';
 
@@ -19,4 +20,30 @@ html {
 body {
   height: 100%;
   background: var(--bg-color-light);
+}
+
+.expansion-arrow {
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1);
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.expansion-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.mat-expansion-panel-body {
+  padding: 0 !important;
+  padding-left: 24px !important;
+}
+
+.page-header {
+  font-size: 30px;
+  font-weight: 600;
+  font-family: Poppins, sans-serif;
+}
+
+.content-wrapper {
+  background: #fff;
+  min-height: 100vh;
+  border-radius: 1rem 1rem 0 0;
 }

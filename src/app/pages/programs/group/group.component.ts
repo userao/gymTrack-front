@@ -1,4 +1,6 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { ProgramsService } from '../../../services/programs.service';
 import { TemplateComponent } from '../template/template.component';
 import { IDBGroup } from '../../../model/group';
@@ -7,7 +9,7 @@ import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-group',
-  imports: [TemplateComponent, GroupComponent, AsyncPipe],
+  imports: [TemplateComponent, GroupComponent, AsyncPipe, MatExpansionModule, MatIconModule],
   templateUrl: './group.component.html',
   styleUrl: './group.component.scss',
 })
@@ -23,17 +25,18 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  handleCreateGroup() {
-    this.programsService.createGroup({ name: "new group", userId: 1, parentId: this.group.id }).subscribe((newGroup) => {
-      const currentGroup = this.withChildren$.getValue();
-      this.withChildren$.next({
-        ...currentGroup,
-        childrenGroups: [...currentGroup.childrenGroups ?? [], newGroup]
-      })
-    });
-  }
+  // handleCreateGroup() {
+  //   this.programsService.createGroup({ name: "new group", userId: 1, parentId: this.group.id }).subscribe((newGroup) => {
+  //     const currentGroup = this.withChildren$.getValue();
+  //     this.withChildren$.next({
+  //       ...currentGroup,
+  //       childrenGroups: [...currentGroup.childrenGroups ?? [], newGroup]
+  //     })
+  //   });
+  // }
 
-  handleCreateTemplate() {
+  handleCreateTemplate(e: Event) {
+    e.stopPropagation();
     this.programsService.createTemplate({ name: "new template", parentId: this.group.id }).subscribe((newTemplate) => {
       const currentGroup = this.withChildren$.getValue();
       this.withChildren$.next({

@@ -1,0 +1,17 @@
+@let sets = sets$ | async;
+
+<mat-expansion-panel hideToggle #panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{exercise.name}}</mat-panel-title>
+    <div class="flex items-center gap-2">
+      <mat-icon class="expansion-arrow" [class.expanded]="panel.expanded">
+        expand_more
+      </mat-icon>
+      <button (click)="handleAddSet($event)"><mat-icon
+          class="bg-accent-1 rounded-full text-[1.2rem] w-5 h-5 pt-px">add</mat-icon></button>
+    </div>
+  </mat-expansion-panel-header>
+  @for (set of sets; track $index) {
+  <app-set [set]="set" class="basis-80" />
+  }
+</mat-expansion-panel>

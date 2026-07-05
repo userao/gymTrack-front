@@ -1,19 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ModalService {
-  private dataSubject = new Subject<any>();
+  private dataSubject = new BehaviorSubject<any>(null);
   readonly data$ = this.dataSubject.asObservable();
-
-  private isShownSubject = new Subject<boolean>();
+  private isShownSubject = new BehaviorSubject<boolean>(false);
   readonly isShown$ = this.isShownSubject.asObservable();
 
-  setData(data: any) {
-    this.dataSubject.next(data);
-  }
 
   closeModal() {
     this.dataSubject.next(null);
@@ -21,8 +17,7 @@ export class ModalService {
   }
 
   openModal(data: any) {
-    this.setData(data);
+    this.dataSubject.next(data);
     this.isShownSubject.next(true);
   }
-
 }

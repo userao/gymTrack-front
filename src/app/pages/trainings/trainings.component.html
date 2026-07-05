@@ -1,0 +1,17 @@
+<div class="font-inter">
+  <h1 class="page-header">Мои тренировки</h1>
+  <div class="content-wrapper p-5">
+    <form [formGroup]="dateForm">
+      <mat-form-field>
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </form>
+    <div class="flex gap-2">
+      <button matButton="filled" class="text-[0.6rem] basis-1/2">Добавить программу</button>
+      <button matButton="filled" class="text-[0.6rem] basis-1/2">Добавить упражнение</button>
+    </div>
+  </div>
+</div>

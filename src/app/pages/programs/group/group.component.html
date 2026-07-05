@@ -1,23 +1,24 @@
 @let groupWithChildren = withChildren$ | async;
 
-<div>
-  <p>{{group.name}} {{group.id}}</p>
-  <button (click)="handleCreateGroup()">G</button>
-  <button (click)="handleCreateTemplate()">T</button>
+<mat-expansion-panel hideToggle #panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>{{group.name}}</mat-panel-title>
+    <div class="flex items-center gap-2">
+      <mat-icon class="expansion-arrow" [class.expanded]="panel.expanded">
+        expand_more
+      </mat-icon>
+      <button (click)="handleCreateTemplate($event)"><mat-icon
+          class="bg-accent-1 rounded-full text-[1.2rem] w-5 h-5 pt-px">add</mat-icon></button>
+    </div>
+  </mat-expansion-panel-header>
   @if(groupWithChildren) {
-    <ul>
-      @for (childGroup of groupWithChildren.childrenGroups; track $index) {
-      <li>
-        <app-group [group]="childGroup" />
-      </li>
-      }
-      @for (childTemplate of groupWithChildren.childrenTemplates; track $index) {
-      <li>
-        <app-template [template]="childTemplate" />
-      </li>
-      }
-    </ul>
-  } @else {
-    <div>loading group...</div>
+  @for (childGroup of groupWithChildren.childrenGroups; track $index) {
+  <app-group [group]="childGroup" />
   }
-</div>
+  @for (childTemplate of groupWithChildren.childrenTemplates; track $index) {
+  <app-template [template]="childTemplate" />
+  }
+  } @else {
+  <div>loading...</div>
+  }
+</mat-expansion-panel>

@@ -1,0 +1,27 @@
+@let muscleGroups = muscleGroups$ | async;
+@let exercises = exercises$ | async;
+
+<div class="font-inter">
+  <h1 class="page-header">Упражнения</h1>
+  <div class="content-wrapper p-5">
+    <div class="flex gap-2 mb-10">
+      @for (muscleGroup of muscleGroups; track $index) {
+      @let isActive = activeMuscleGroup$ | async;
+      <button matButton="tonal" class="h-6.25" [class.bg-accent-2]="isActive === muscleGroup.id"
+        (click)="setActiveMuscleGroup(muscleGroup.id)">{{muscleGroup.name}}</button>
+      }
+    </div>
+    <div>
+      @for (exercise of exercises; track $index) {
+      <div class="text-lg font-semibold flex justify-between mb-5">
+        <p>{{exercise.name}}</p>
+        <button (click)="handleAddExercise(exercise.id)">
+          <mat-icon class="bg-accent-1 rounded-full text-[1.2rem] w-5 h-5 pt-px">
+            add
+          </mat-icon>
+        </button>
+      </div>
+      }
+    </div>
+  </div>
+</div>

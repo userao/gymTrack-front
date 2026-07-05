@@ -3,4 +3,9 @@
 @theme {
   --font-poppins: Poppins, sans-serif;
   --font-inter: Inter, sans-serif;
+  --color-bg-light: #E5E5EA;
+  --color-bg-dark: #2A2725;
+  --color-accent-1: #DCFEA6;
+  --color-accent-2: #C2AEF0;
+  --color-nav: #F5F6F7;
 }

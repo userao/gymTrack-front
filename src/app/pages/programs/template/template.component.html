@@ -1,45 +1,24 @@
 @let withExercises = withExercises$ | async;
-@let modalData = modalData$ | async;
 
-<div>
-  <div class="flex gap-4">
-    <p class="underline">{{template.name}} {{template.id}}</p>
-    <button class="border-1 rounded-md h-[1lh] cursor-pointer" (click)="handleShowModal()" t>+</button>
-  </div>
+<mat-expansion-panel hideToggle #panel>
+  <mat-expansion-panel-header class="expansion-header" [class.expanded]="panel.expanded">
+    <mat-panel-title>{{template.name}}</mat-panel-title>
+    <div class="flex items-center gap-2">
+      <mat-icon class="expansion-arrow" [class.expanded]="panel.expanded">
+        expand_more
+      </mat-icon>
+      <button (click)="handleToExercises($event)"><mat-icon
+          class="bg-accent-1 rounded-full text-[1.2rem] w-5 h-5 pt-px">add</mat-icon></button>
+    </div>
+  </mat-expansion-panel-header>
+
   @if(withExercises) {
   @for (exercise of withExercises.exercises; track $index) {
-  <ul>
-    <li>
-      <div class="d-flex gap-4">
-        <p>{{exercise.name}}</p>
-        <button class="border-1 rounded-md h-[1lh] cursor-pointer" (click)="handleAddSet(exercise.id)">+</button>
-      </div>
-      @for (set of exercise.sets; track $index) {
-      <p>{{set.weight}}kg x {{set.reps}}reps</p>
-      }
-    </li>
-  </ul>
-  }
-  }
-</div>
-
-@if(modalShown$ | async) {
-<div class="absolute top-0 left-0 w-screen h-screen flex justify-center items-center">
-  <div class="w-50 h-50 border-2">
-    <div>
-      @for (muscleGroup of modalData?.muscleGroups; track $index) {
-      {{muscleGroup.name}}
-      }
-    </div>
-    <div>
-      @for (exercise of modalData?.exercises; track $index) {
-      <p [attr.data-exercise-id]="exercise.id">
-        <button (click)="handleAddExercise(exercise.id)">
-          {{exercise.name}}
-        </button>
-      </p>
-      }
-    </div>
+  <!-- <app-exercise [exercise]="exercise" [parentId]="template.id" /> -->
+  <div class="flex justify-between pr-8 mb-4">
+    <p>{{exercise.name}}</p>
+    <a [routerLink]="['/template',template.id,'exercise',exercise.id]"><mat-icon>list</mat-icon></a>
   </div>
-</div>
-}
+  }
+  }
+</mat-expansion-panel>

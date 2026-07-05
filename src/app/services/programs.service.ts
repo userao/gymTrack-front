@@ -3,7 +3,7 @@ import { ProgramsApiService } from './api/programs.api.service';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { IDBGroup } from '../model/group';
 import { IDBTemplate } from '../model/template';
-import {  SetCreateData } from '../model/exercise';
+import { SetCreateData } from '../model/exercise';
 
 @Injectable({
   providedIn: 'root',
@@ -42,11 +42,11 @@ export class ProgramsService {
   //   );
   // }
 
-  getTemplate(templateId: number): Observable<IDBTemplate> {
+  getTemplate(templateId: number | string): Observable<IDBTemplate> {
     return this.programsApiService.getTemplate(templateId);
   }
 
-  createTemplate(templateDto: {name: string, parentId: number}) {
+  createTemplate(templateDto: { name: string, parentId: number }) {
     return this.programsApiService.createTemplate(templateDto);
   }
 
@@ -55,7 +55,6 @@ export class ProgramsService {
   }
 
   getExercises(userId: number | string) {
-    //тут надо передавать userId
     return this.programsApiService.getExercises(userId);
   }
 
@@ -65,5 +64,13 @@ export class ProgramsService {
 
   addSetsToTemplateExercise(templateId: number | string, exerciseId: number | string, sets: SetCreateData[]) {
     return this.programsApiService.addSetsToTemplateExercise(templateId, exerciseId, sets);
+  }
+
+  removeSet(setId: number | string) {
+    return this.programsApiService.removeSet(setId);
+  }
+
+  updateSet(setId: number | string, set: { weight: number, reps: number }) {
+    return this.programsApiService.updateSet(setId, set)
   }
 }

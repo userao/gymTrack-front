@@ -1,0 +1,21 @@
+@if(isShown$ | async) {
+
+<div class="flex justify-center items-center absolute w-full h-full top-0 left-0 bg-gray-500/10 z-50">
+  <div class="bg-gray-300 w-80 p-6 rounded-md shadow-xl">
+    <form [formGroup]="setForm" (submit)="updateSet()">
+      <div class="flex gap-5">
+        <mat-form-field>
+          <input matInput formControlName="weight" class="text-center text-2xl">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="reps" class="text-center text-2xl">
+        </mat-form-field>
+      </div>
+      <div class="flex gap-5">
+        <button matButton="filled" type="submit" class="bg-accent-1 text-bg-dark basis-1/2">Сохранить</button>
+        <button matButton="filled" (click)="closeModal()" class="bg-accent-2 text-bg-dark basis-1/2">Закрыть</button>
+      </div>
+    </form>
+  </div>
+</div>
+}

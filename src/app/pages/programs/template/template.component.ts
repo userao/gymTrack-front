@@ -1,14 +1,18 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { ProgramsService } from '../../../services/programs.service';
 import { IDBTemplate } from '../../../model/template';
-import { BehaviorSubject, forkJoin, map, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import { ModalService } from '../../../services/modal.service';
 import { IDBExercise, IDBMuscleGroup } from '../../../model/exercise';
+import { UserService } from '../../../services/user.service';
+import { IUserLoginResponse } from '../../../model/user';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-template',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, MatExpansionModule, MatIconModule, RouterLink],
   templateUrl: './template.component.html',
   styleUrl: './template.component.scss',
 })
@@ -17,8 +21,11 @@ export class TemplateComponent implements OnInit {
   @Input() template: IDBTemplate;
   withExercises$ = new BehaviorSubject<IDBTemplate>({} as IDBTemplate);
 
-  private modalService = inject(ModalService);
+  private userService = inject(UserService);
+  private programsService = inject(ProgramsService);
+  private router = inject(Router);
 
+  user: IUserLoginResponse;
   modalShown: boolean = false;
   modalShown$: Observable<boolean>;
   modalData$: Observable<{
@@ -26,32 +33,19 @@ export class TemplateComponent implements OnInit {
     muscleGroups: IDBMuscleGroup[],
   }>;
 
-  private programsService = inject(ProgramsService);
 
   ngOnInit(): void {
-    this.modalData$ = this.modalService.data$;
-    this.modalShown$ = this.modalService.isShown$;
+    this.user = this.userService.getSavedUser() as IUserLoginResponse;
     this.programsService.getTemplate(this.template.id).subscribe((withExercises) => this.withExercises$.next(withExercises))
   }
 
-  handleShowModal() {
-    forkJoin({
-      muscleGroups: this.programsService.getMuscleGroups(),
-      // тут надо передавать userId из localStorage
-      exercises: this.programsService.getExercises(1),
-    }).subscribe((data) => {
-      this.modalService.openModal(data);
+  handleToExercises(e: Event) {
+    e.stopPropagation();
+    this.router.navigate(['/exercises'], {
+      queryParams: {
+        templateId: this.template.id
+      }
     })
-  }
-
-  handleAddExercise(exerciseId: number) {
-    this.programsService.addExerciseToTemplate(this.template.id, exerciseId)
-      .subscribe((nextTemplate) => this.withExercises$.next(nextTemplate))
-    this.handleCloseModal();
-  }
-
-  handleCloseModal() {
-    this.modalService.closeModal();
   }
 
   handleAddSet(exerciseId: number) {

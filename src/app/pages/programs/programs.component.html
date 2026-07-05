@@ -1,19 +1,16 @@
 @let groups = groupsSubject$ | async;
 
-<div>
-  <form (submit)="handleCreateProgram($event)">
-    <input type="text" [formControl]="programName">
-    <button type="submit">Создать программу</button>
-  </form>
-  <ul>
+<div class="font-inter">
+  <h1 class="page-header">Мои программы</h1>
+  <div class="content-wrapper">
+    <button matButton="filled" class="m-5" (click)="handleCreateProgram()">Создать программу<mat-icon>add</mat-icon></button>
+
     @if(groups) {
-      @for (group of groups; track $index) {
-        @if(group.parentId === null) {
-          <app-group [group]="group" />
-        }
-      }
-    } @else {
-      <div>loading...</div>
+    @for (group of groups; track $index) {
+    @if(group.parentId === null) {
+    <app-group [group]="group" />
     }
-  </ul>
+    }
+    }
+  </div>
 </div>

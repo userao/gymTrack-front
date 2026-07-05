@@ -1,0 +1,28 @@
+@let exercise = exercise$ | async;
+
+<div class="font-inter">
+  <h1 class="page-header">{{exercise?.name}}</h1>
+  <div class="content-wrapper p-5 flex flex-col items-center">
+    @for (set of exercise?.sets; track $index) {
+    <div class="flex justify-between items-center mb-5 w-full">
+      <p class="text-xl">{{$index + 1}}</p>
+      <div class="flex gap-5 items-center">
+        <div class="flex gap-10">
+          <p class="text-3xl">{{set.weight}}<span class="text-sm"> кг</span></p>
+          <p class="text-3xl">{{set.reps}}<span class="text-sm"> повт.</span></p>
+        </div>
+        <div>
+          <button matFab (click)="openEditSetModal(set)" class="text-accent-2 w-10 h-10 text-2xl text-center shadow-none bg-transparent">
+            <mat-icon class="w-full h-full text-3xl">edit</mat-icon>
+          </button>
+          <button (click)="handleDeleteSet(set.id)" matFab class="text-red-400 w-10 h-10 text-2xl text-center shadow-none bg-transparent">
+            <mat-icon class="w-full h-full text-3xl">delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+    <button (click)="handleAddSet()" matButton="filled" class="w-30 bg-accent-1 text-bg-dark"><mat-icon
+        class="m-0 font-semibold">add</mat-icon></button>
+  </div>
+</div>
